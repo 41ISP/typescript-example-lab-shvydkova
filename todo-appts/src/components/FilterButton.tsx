@@ -1,4 +1,9 @@
-export const TodoButtton = () => {
+import type { ITodo } from "../App"
+
+interface IButtonProps {
+    getFilteredTodos: ITodo
+}
+export const TodoButton = ({getFilteredTodos}: IButtonProps) => {
     return(
         <div className="filter-buttons">
           <button className="btn btn-filter active">

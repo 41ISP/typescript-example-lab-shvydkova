@@ -1,5 +1,5 @@
-import { useState, type SubmitEvent } from 'react'
-import { TodoButtton } from './components/FilterButton'
+import { useState, type FormEvent, type SubmitEvent } from 'react'
+import { TodoButton } from './components/FilterButton'
 import { initialFormData, TodoForm, type IFormData } from './components/TodoForm'
 import { TodoList } from './components/TodoList'
 
@@ -17,7 +17,7 @@ function App() {
     return saved ? JSON.parse(saved) : []
   })
 
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newTodo = {
       ...formData,
@@ -27,13 +27,33 @@ function App() {
     setFormData(initialFormData)
   }
 
+  const toggleTodo = (id: number) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const handleDelete = (id: number) => {
+    setTodos(old => old.filter(el => id !== el.id))
+  }
+
+  const getFilteredTodos = () => {
+    if (filter === 'active') {
+      return todos.filter(todo => !todo.completed);
+    }
+    if (filter === 'completed') {
+      return todos.filter(todo => todo.completed);
+    }
+    return todos;
+  };
+
   return (
-      <div className="app-container">
-        <h1 className="app-title">📝 Мои задачи</h1>
-        <TodoForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit}/>
-        <TodoButtton />
-        <TodoList />
-      </div>
+    <div className="app-container">
+      <h1 className="app-title">📝 Мои задачи</h1>
+      <TodoForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} />
+      <TodoButton getFilteredTodos={getFilteredTodos}/>
+      <TodoList handleDelete={handleDelete} toggleTodo={toggleTodo} todos={todos} />
+    </div>
   )
 }
 
