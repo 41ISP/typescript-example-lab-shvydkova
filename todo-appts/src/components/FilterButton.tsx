@@ -1,20 +1,36 @@
-import type { ITodo } from "../App"
 
-interface IButtonProps {
-    getFilteredTodos: ITodo
+export type FilterType = 'all' | 'active' | 'completed';
+
+interface FilterButtonsProps {
+  currentFilter: FilterType;
+  onFilterChange: (filter: FilterType) => void;
 }
-export const TodoButton = ({getFilteredTodos}: IButtonProps) => {
-    return(
-        <div className="filter-buttons">
-          <button className="btn btn-filter active">
-            Все
+
+const FilterButton = ({ currentFilter, onFilterChange }: FilterButtonsProps) => {
+
+  const filters: { label: string; value: FilterType }[] = [
+    { label: 'Все', value: 'all' },
+    { label: 'Активные', value: 'active' },
+    { label: 'Завершённые', value: 'completed' },
+  ];
+
+  return (
+    <div className="filter-section">
+      <div className="task-stats">
+
+      </div>
+      <div className="filter-buttons">
+        {filters.map(filter => (
+          <button
+            key={filter.value}
+            className={`btn btn-filter ${currentFilter === filter.value ? 'active' : ''}`}
+            onClick={() => onFilterChange(filter.value)}>
+            {filter.label}
           </button>
-          <button className="btn btn-filter">
-            Активные
-          </button>
-          <button className="btn btn-filter">
-            Завершённые
-          </button>
-        </div>
-    )
-}
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default FilterButton;
