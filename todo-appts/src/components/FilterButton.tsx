@@ -4,9 +4,10 @@ export type FilterType = 'all' | 'active' | 'completed';
 interface FilterButtonsProps {
   currentFilter: FilterType;
   onFilterChange: (filter: FilterType) => void;
+  activeTodosCount: number
 }
 
-const FilterButton = ({ currentFilter, onFilterChange }: FilterButtonsProps) => {
+const FilterButton = ({ activeTodosCount, currentFilter, onFilterChange }: FilterButtonsProps) => {
 
   const filters: { label: string; value: FilterType }[] = [
     { label: 'Все', value: 'all' },
@@ -28,6 +29,9 @@ const FilterButton = ({ currentFilter, onFilterChange }: FilterButtonsProps) => 
             {filter.label}
           </button>
         ))}
+      </div>
+      <div className="active-count">
+        Активных задач: {activeTodosCount}
       </div>
     </div>
   );

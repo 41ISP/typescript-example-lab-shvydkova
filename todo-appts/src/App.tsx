@@ -42,6 +42,8 @@ function App() {
     setTodos(old => old.filter(el => id !== el.id))
   }
 
+  const activeTodosCount = todos.filter(todo => !todo.completed).length
+
   const getFilteredTodos = () => {
     if (filter === 'active') {
       return todos.filter(todo => !todo.completed);
@@ -56,8 +58,8 @@ function App() {
     <div className="app-container">
       <h1 className="app-title">📝 Мои задачи</h1>
       <TodoForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} />
-      <FilterButton currentFilter={filter} onFilterChange={setFilter} />
-      <TodoList handleDelete={handleDelete} toggleTodo={toggleTodo} todos={getFilteredTodos()} />
+      <FilterButton activeTodosCount={activeTodosCount} currentFilter={filter} onFilterChange={setFilter} />
+      <TodoList  handleDelete={handleDelete} toggleTodo={toggleTodo} todos={getFilteredTodos()} />
     </div>
   )
 }
